@@ -3,7 +3,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
   modules: ["@nuxt/ui"],
   runtimeConfig: {
-    serverHost: process.env.SERVER_HOST,
-    serverAuth : process.env.SERVER_AUTH
+    serverHost: "10.0.0.1",
+    serverAuth : "dXNlcjpwYXNzd29yZA=="
   }
 })
