@@ -5,7 +5,7 @@ export default defineEventHandler(async () => {
         'Authorization': `Basic ${config.serverAuth}`,
         'Content-Type': 'application/json',
     };
-    let r = [];
+    let r = "";
     try {
         r = await fetch(url, { headers }).then(response => response.json());
     } catch (ex){
