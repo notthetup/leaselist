@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useIntervalFn } from '@vueuse/core'
-const { pending, data, error, refresh } = await useFetch('/api/leases', {
+const {data, refresh } = await useFetch('/api/leases', {
   method: 'GET',
   headers: {
     'Cache-Control': 'no-cache',
@@ -32,7 +32,17 @@ const sort = ref({
 const columns = [{
   key: 'ip',
   label: 'IP Address',
-  sortable: true
+  sortable: true,
+  sort: (a: string, b: string , direction: string) => {
+    const aParts = a.split('.').map(Number)
+    const bParts = b.split('.').map(Number)
+    for (let i = 0; i < 4; i++) {
+      if (aParts[i] !== bParts[i]) {
+        return direction === 'asc' ? aParts[i] - bParts[i] : bParts[i] - aParts[i]
+      }
+    }
+    return 0
+  }
 },{
   key: 'host',
   label: 'Hostname',
@@ -52,7 +62,7 @@ const columns = [{
 <template>
     <div class="flex flex-col pt-6">
         <UCard class="m-auto" >
-        <template #header>
+        <template #header v-if="router?.data?.value">
             <h1 class="text-3xl font-bold text-center">{{router.data.value.name}} DHCP Leases</h1>
         </template>
 
